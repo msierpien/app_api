@@ -1,0 +1,115 @@
+extend type Query {
+    invoice(id: Int): InvoiceResponse
+    invoices(clientID: String ): [Invoice]
+}
+
+extend type Mutation {
+    createInvoice(input: InvoiceInput): InvoiceResponse
+    # updateInvoice(input: InvoiceInput): InvoiceResponse
+    # deleteInvoice(id: Int): InvoiceResponse
+}
+enum KindInvoice {
+    vat
+    proforma
+    final
+
+
+}
+input InvoiceInput {
+    kind:           KindInvoice
+    client_id:      Int
+    number:         String
+    sell_date:      DateTime
+    issue_date:     DateTime
+    payment_to:     DateTime,
+    positions: [PositionsInvoiceInput]!
+}
+
+input PositionsInvoiceInput {
+    product_id:         Int
+    id:                 Int
+    name:               String
+    additional_info:    String #dodatkowa informacja na pozycji faktury (np. PKWiU)
+    quantity:           Float!
+    quantityUnit:       String
+    price_net:          Float
+    price_gross:        Float
+    tax:                String
+    total_price_gross:  Float
+    code:               String
+    discountNet:        String
+    lumpSumTax:         String
+    correctedPosKind:   String
+    gtuCode:            String
+}
+
+type Invoice {
+    id: Float
+    user_id: Float
+    number: String
+    place: String
+    sell_date: String
+    payment_type: String
+    price_net: String
+    price_gross: String
+    currency: String
+    status: String
+    description: String
+    seller_name: String
+    buyer_name: String
+    kind_text: String
+    kind: String
+}
+
+type InvoiceResponse {
+    id: Float
+    user_id: Float
+    number: String
+    place: String
+    sell_date: String
+    payment_type: String
+    price_net: String
+    price_gross: String
+    currency: String
+    status: String
+    description: String
+    seller_name: String
+    buyer_name: String
+    kind_text: String
+    kind: String
+    positions: [PositionsInvoice]
+}
+type PositionsInvoice {
+    id: Int
+    invoiceId: Int
+    name: String
+    description: String
+    priceNet: String
+    quantity: String
+    totalPriceGross: String
+    totalPriceNet: String
+    accountId: Int
+    createdAt: String
+    updatedAt: String
+    additionalInfo: String
+    quantityUnit: String
+    tax: String
+    priceGross: String
+    priceTax: String
+    totalPriceTax: String
+    kind: String
+    invoicePositionId: Int
+    productId: ID
+    deleted: Boolean
+    discount: String
+    discountPercent: String
+    tax2: String
+    exchangeRate: String
+    accountingTaxKind: String
+    code: String
+    discountNet: String
+    lumpSumTax: String
+    correctedPosKind: String
+    gtuCode: String
+}
+

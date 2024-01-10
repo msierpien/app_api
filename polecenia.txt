@@ -1,0 +1,9 @@
+source .env      
+migrate create -ext sql -dir ./migrations -seq //nazwa_migracji_products 
+
+migrate -database ${DATABASE_URL} -path ./migrations force 1
+migrate -database ${DATABASE_URL} -path ./migrations up
+migrate -database ${DATABASE_URL} -path ./migrations down
+
+#gqlden
+go run github.com/99designs/gqlgen generate
